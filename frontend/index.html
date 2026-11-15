@@ -1,0 +1,63 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>PRJ11 - Monitoramento de Queimadas</title>
+
+    <!-- Leaflet CSS -->
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    >
+
+    <!-- Estilos da aplicação -->
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+
+    <header>
+        <div class="header-content">
+            <p class="eyebrow">Monitoramento ambiental </p>
+            <h1>Monitoramento de Queimadas</h1>
+
+            <p class="header-description">
+                Visualização geográfica de focos de calor
+                identificados pelo INPE
+            </p>
+        </div>
+    </header>
+
+    <main>
+
+        <section class="summary-card" aria-label="Resumo dos focos de calor">
+            <div class="summary-heading">
+                <span class="summary-mark" aria-hidden="true"></span>
+                <h2>Focos de calor</h2>
+            </div>
+            <div id="status-focos" class="status" role="status" aria-live="polite" aria-atomic="true">
+                Aguardando carregamento dos focos...
+            </div>
+        </section>
+
+        <div id="map"></div>
+
+    </main>
+
+
+    <!-- Biblioteca Leaflet -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <!-- Inicialização do mapa -->
+    <script src="/js/map.js"></script>
+
+    <!-- Carregamento dos focos de queimadas -->
+    <script src="/js/markers.js"></script>
+
+</body>
+
+</html>
