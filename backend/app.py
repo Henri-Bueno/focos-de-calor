@@ -1,6 +1,7 @@
 from flask import Flask
 
 from routes.inpe_routes import inpe_bp
+from routes.analysis_routes import analysis_bp
 
 
 app = Flask(
@@ -12,6 +13,7 @@ app = Flask(
 
 # Registra as rotas do INPE
 app.register_blueprint(inpe_bp)
+app.register_blueprint(analysis_bp)
 
 
 @app.route("/")
