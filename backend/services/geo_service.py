@@ -4,7 +4,7 @@ from shapely.geometry import box
 from services.inpe_service import obter_focos
 
 
-def contar_focos_no_retangulo(south, north, west, east):
+def contar_focos_no_retangulo(west, south, east, north):
     focos = obter_focos()
 
     if focos is None or focos.empty:

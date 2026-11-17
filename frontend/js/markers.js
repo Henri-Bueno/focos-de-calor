@@ -1,4 +1,3 @@
-
 // Elemento que mostra o carregamento dos focos
 const statusFocos = document.getElementById('status-focos');
 
@@ -7,7 +6,6 @@ const statusFocos = document.getElementById('status-focos');
 async function carregarFocos() {
 
     try {
-        statusFocos.textContent = 'Carregando focos do INPE...';
 
         // Solicita os focos ao Flask
         const resposta = await fetch('/api/focos');
@@ -16,7 +14,6 @@ async function carregarFocos() {
             throw new Error('Erro ao buscar os focos do INPE.');
         }
 
-        // Recebe os dados em formato JSON
         const dados = await resposta.json();
 
         // Cria um marcador para cada foco recebido
@@ -34,15 +31,12 @@ async function carregarFocos() {
 
         });
 
-        statusFocos.textContent =
-            `${dados.total.toLocaleString('pt-BR')} focos carregados.`;
-
-        console.log('Total de focos:', dados.total);
+        //exibe numeros de focos totais
+        statusFocos.textContent = `${dados.total.toLocaleString('pt-BR')} focos carregados.`;
 
     } catch (erro) {
 
         console.error(erro);
-
         statusFocos.textContent = 'Não foi possível carregar os focos.';
 
     }

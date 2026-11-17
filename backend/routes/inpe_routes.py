@@ -1,5 +1,4 @@
 from flask import Blueprint, jsonify
-
 from services.inpe_service import obter_focos
 
 

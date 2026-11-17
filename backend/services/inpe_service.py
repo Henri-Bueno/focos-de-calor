@@ -1,13 +1,11 @@
-
 import re
-from pathlib import Path
-
-import pandas as pd
 import requests
+from pathlib import Path
+import pandas as pd
 
 
 # Endereço dos arquivos diários do INPE
-URL_DIRETORIO = "https://dataserver-coids.inpe.br/queimadas/queimadas/focos/csv/diario/Brasil/"
+URL_INPE = "https://dataserver-coids.inpe.br/queimadas/queimadas/focos/csv/diario/Brasil/"
 
 # Pasta onde o CSV será salvo
 PASTA_DADOS = Path(__file__).resolve().parent.parent / "data"
@@ -27,10 +25,10 @@ def obter_focos():
     PASTA_DADOS.mkdir(parents=True, exist_ok=True)
 
     # Acessa o diretório do INPE
-    resposta = requests.get(URL_DIRETORIO, timeout=30)
-    resposta.raise_for_status()
+    resposta = requests.get(URL_INPE, timeout=30)
+    resposta.raise_for_status() #verifica se deu algum erro
 
-    # Encontra os nomes dos arquivos CSV
+    # Encontra os nomes dos arquivos CSV e coloca em uma lista
     arquivos = re.findall(
         r"focos_diario_br_\d{8}\.csv",
         resposta.text
@@ -44,14 +42,17 @@ def obter_focos():
 
     # Baixa o arquivo selecionado
     resposta = requests.get(
-        URL_DIRETORIO + nome_arquivo,
+        URL_INPE + nome_arquivo,
         timeout=120
     )
-    resposta.raise_for_status()
+    resposta.raise_for_status()  #verifica se deu algum erro
 
     # Salva o CSV na pasta do projeto
     caminho_csv = PASTA_DADOS / nome_arquivo
     caminho_csv.write_bytes(resposta.content)
+
+
+
 
     # Lê os dados utilizando Pandas
     df = pd.read_csv(caminho_csv)
@@ -62,8 +63,7 @@ def obter_focos():
     # Padroniza possíveis nomes alternativos
     df = df.rename(columns={
         "lat": "latitude",
-        "lon": "longitude",
-        "long": "longitude"
+        "lon": "longitude"
     })
 
     # Separa somente latitude e longitude
@@ -90,7 +90,5 @@ def obter_focos():
 
     # Guarda os dados para reutilização
     focos_cache = focos.reset_index(drop=True)
-
-    print(f"Total de focos carregados: {len(focos_cache)}")
 
     return focos_cache

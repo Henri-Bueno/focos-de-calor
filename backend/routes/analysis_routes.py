@@ -1,5 +1,4 @@
 from flask import Blueprint, jsonify, request
-
 from services.geo_service import contar_focos_no_retangulo
 
 analysis_bp = Blueprint("analysis", __name__, url_prefix="/api/analysis")
@@ -20,10 +19,10 @@ def analisar_retangulo():
         return jsonify({"erro": f"Envie números para: {', '.join(CAMPOS)}."}), 400
 
     if not (-90 <= south < north <= 90):
-        return jsonify({"erro": "Latitudes inválidas (south deve ser menor que north)."}), 400
+        return jsonify({"erro": "Latitudes inválidas."}), 400
 
     if not (-180 <= west < east <= 180):
-        return jsonify({"erro": "Longitudes inválidas (west deve ser menor que east)."}), 400
+        return jsonify({"erro": "Longitudes inválidas."}), 400
 
-    total = contar_focos_no_retangulo(south, north, west, east)
+    total = contar_focos_no_retangulo(west, south, east, north)
     return jsonify({"total": total})

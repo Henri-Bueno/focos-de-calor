@@ -9,7 +9,7 @@ map.addControl(new L.Control.Draw({
         marker: false,
         circlemarker: false,
     },
-    edit: { featureGroup: drawnItems, edit: false },
+    edit: { featureGroup: drawnItems, edit: false, remove: false },
 }));
 
 // Painel de resultado
@@ -36,8 +36,6 @@ map.on(L.Draw.Event.CREATED, async (evento) => {
         west: b.getWest(),
         east: b.getEast(),
     };
-
-    mostrarResultado("Calculando...");
 
     try {
         const resposta = await fetch("/api/analysis/rectangle", {
