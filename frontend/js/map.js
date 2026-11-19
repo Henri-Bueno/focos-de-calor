@@ -1,5 +1,5 @@
 // Criando o mapa Leaflet 
-const map = L.map('map').setView([-14.2, -51.9], 4); // (latitude, longitude, zoom)
+const map = L.map('map').setView([-14, -51], 4); // (latitude, longitude, zoom)
 
 // Adicionando o mapa base do OpenStreetMap
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
