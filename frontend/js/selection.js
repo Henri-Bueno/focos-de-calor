@@ -1,4 +1,17 @@
-const drawnItems = new L.FeatureGroup().addTo(map);
+// Referência ao elemento HTML que exibirá o resultado
+const painelResultado = document.getElementById("resultado-selecao");
+function mostrarResultado(texto) {
+    if (!painelResultado) {
+        console.error("Elemento resultado-selecao não encontrado no HTML.");
+        return;
+    }
+    painelResultado.innerHTML = texto;
+}
+
+
+
+// -------- Configura as ferramentas de desenho do mapa -------- 
+const drawnItems = new L.FeatureGroup().addTo(map); // armazena os desenhos
 
 map.addControl(new L.Control.Draw({
     draw: {
@@ -12,24 +25,18 @@ map.addControl(new L.Control.Draw({
     edit: { featureGroup: drawnItems, edit: false, remove: false },
 }));
 
-// Painel de resultado
-const painel = L.control({ position: "bottomleft" });
-painel.onAdd = function () {
-    this._div = L.DomUtil.create("div", "painel-resultado");
-    this._div.innerHTML = "Desenhe um retângulo para contar os focos.";
-    return this._div;
-};
-painel.addTo(map);
 
-function mostrarResultado(texto) {
-    painel._div.innerHTML = texto;
-}
 
+// -------- conta os focos dentro do retângulo desenhado -------- 
 map.on(L.Draw.Event.CREATED, async (evento) => {
-    drawnItems.clearLayers();                 // mantém só uma seleção
+
+    drawnItems.clearLayers();
     drawnItems.addLayer(evento.layer);
 
+    // Obtém os limites geográficos do retângulo
     const b = evento.layer.getBounds();
+
+    // Organiza as coordenadas para enviar ao backend
     const corpo = {
         south: b.getSouth(),
         north: b.getNorth(),
@@ -37,19 +44,24 @@ map.on(L.Draw.Event.CREATED, async (evento) => {
         east: b.getEast(),
     };
 
+    // -------- envia os limites para o backend --------
     try {
         const resposta = await fetch("/api/analysis/rectangle", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(corpo),
         });
+
         const dados = await resposta.json();
 
         if (!resposta.ok) {
             mostrarResultado(dados.erro || "Erro ao analisar a área.");
             return;
         }
-        mostrarResultado(`Focos na área selecionada: <strong>${dados.total}</strong>`);
+
+
+        mostrarResultado(` ${dados.total} focos selecionados.`);
+
     } catch (e) {
         mostrarResultado("Falha de comunicação com o servidor.");
     }

@@ -4,7 +4,7 @@ from pathlib import Path
 import pandas as pd
 
 
-# Endereço dos arquivos diários do INPE
+# URL do INPE para obter CSVs de focos de calor
 URL_INPE = "https://dataserver-coids.inpe.br/queimadas/queimadas/focos/csv/diario/Brasil/"
 
 # Pasta onde o CSV será salvo
@@ -24,11 +24,15 @@ def obter_focos():
     # Cria a pasta de dados, caso não exista
     PASTA_DADOS.mkdir(parents=True, exist_ok=True)
 
-    # Acessa o diretório do INPE
+
+
+    # --- Baixa o CSV do INPE ---
+
+    # Acessa a URL do INPE
     resposta = requests.get(URL_INPE, timeout=30)
     resposta.raise_for_status() #verifica se deu algum erro
 
-    # Encontra os nomes dos arquivos CSV e coloca em uma lista
+    # Busca os nomes dos arquivos CSV e coloca em uma lista
     arquivos = re.findall(
         r"focos_diario_br_\d{8}\.csv",
         resposta.text
@@ -53,6 +57,7 @@ def obter_focos():
 
 
 
+    # --- ler o CSV e processar os dados ---
 
     # Lê os dados utilizando Pandas
     df = pd.read_csv(caminho_csv)

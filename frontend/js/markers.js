@@ -2,6 +2,9 @@
 const statusFocos = document.getElementById('status-focos');
 
 
+
+
+
 // Busca os focos no backend e adiciona os marcadores ao mapa
 async function carregarFocos() {
 
@@ -19,7 +22,7 @@ async function carregarFocos() {
         // Cria um marcador para cada foco recebido
         dados.focos.forEach(foco => {
 
-            L.circleMarker(
+            L.circleMarker( // o leaflet recebe latitude e longitude e encontra o ponto exato no mapa
                 [foco.latitude, foco.longitude],
                 {
                     radius: 4,
@@ -28,7 +31,6 @@ async function carregarFocos() {
                     fillOpacity: 0.7
                 }
             ).addTo(window.map);
-
         });
 
         //exibe numeros de focos totais
@@ -43,5 +45,5 @@ async function carregarFocos() {
 }
 
 
-// Executa o carregamento dos focos
+// Executa o carregamento
 carregarFocos();

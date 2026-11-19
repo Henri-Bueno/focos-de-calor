@@ -1,11 +1,9 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>PRJ11 - Monitoramento de Queimadas</title>
+    <title>Focos de Calor</title>
 
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" >
@@ -21,40 +19,48 @@
         <div class="header-content">
             <p class="eyebrow">Monitoramento ambiental </p>
             <h1>Monitoramento de Queimadas</h1>
-
             <p class="header-description">
                 Visualização geográfica de focos de calor
                 identificados pelo INPE
             </p>
         </div>
     </header>
-
     <main>
-
-        <section class="summary-card" aria-label="Resumo dos focos de calor">
-            <div class="summary-heading">
-                <span class="summary-mark" aria-hidden="true"></span>
-                <h2>Focos de calor</h2>
-            </div>
-            <div id="status-focos" class="status" role="status" aria-live="polite" aria-atomic="true">
-                Aguardando carregamento dos focos...
-            </div>
-        </section>
-
+        <div class="summary-panels">
+            <section class="summary-card" aria-label="Resumo dos focos de calor">
+                <div class="summary-heading">
+                    <span class="summary-mark" aria-hidden="true"></span>
+                    <h2>Focos de calor</h2>
+                </div>
+                <div id="status-focos" class="status" role="status" aria-live="polite" aria-atomic="true">
+                    Aguardando carregamento dos focos...
+                </div>
+            </section>
+            <section class="summary-card summary-card--selection" aria-label="Resumo dos focos na área selecionada">
+                <div class="summary-heading">
+                    <span class="summary-mark summary-mark--selection" aria-hidden="true"></span>
+                    <h2>Focos na área selecionada</h2>
+                </div>
+                <div id="resultado-selecao" class="status" role="status" aria-live="polite" aria-atomic="true">
+                    nenhum foco selecionado.
+                </div>
+            </section>
+        </div>
         <div id="map"></div>
-
     </main>
 
 
-    <!-- Bibliotecas -->
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script>
 
-    <!-- Aplicação (cada arquivo uma única vez, nesta ordem) -->
+    <!-- Biblioteca para mapa -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script> <!-- disponibiliza L como variavel global-->
+    <script src="https://unpkg.com/leaflet-draw@1.0.4/dist/leaflet.draw.js"></script> <!-- ferramenta de desenho para o mapa -->
+
+    <!-- Aplicação -->
     <script src="./js/map.js"></script>
     <script src="./js/markers.js"></script>
     <script src="./js/selection.js"></script>
 
-</body>
 
+
+</body>
 </html>
