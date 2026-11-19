@@ -38,10 +38,10 @@ map.on(L.Draw.Event.CREATED, async (evento) => {
 
     // Organiza as coordenadas para enviar ao backend
     const corpo = {
-        south: b.getSouth(),
         north: b.getNorth(),
-        west: b.getWest(),
+        south: b.getSouth(),
         east: b.getEast(),
+        west: b.getWest(),
     };
 
     // -------- envia os limites para o backend --------
